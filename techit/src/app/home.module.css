@@ -69,7 +69,7 @@
     font-size: 15px;
 }
 }
-  @media (min-height:739px){
+  @media (min-height:700px){
     .image{
         height: 650px;
         
