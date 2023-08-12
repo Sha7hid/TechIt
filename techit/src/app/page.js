@@ -1,11 +1,10 @@
-"use client";
+"use client"
 import { spartan } from "@/fonts";
 import styles from "./styles/home.module.css";
 import { Row ,Col} from "react-bootstrap";
 import Image from "next/image";
 import title from '../../public/title.jpg'
-import Products from "./products/page";
-export default function Home() {
+export  default async function Home() {
   return (
     <>
      
@@ -23,7 +22,6 @@ export default function Home() {
         </Row>
 
       </main>
-      <Products/>
     </>
   );
 }
