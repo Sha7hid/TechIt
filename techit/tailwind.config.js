@@ -4,6 +4,7 @@ module.exports = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -16,6 +17,10 @@ module.exports = {
         'test-color': '#4458BE',
         'test-color2':'#051669'
       },
+      textColor:{
+        'test-color': '#4458BE',
+        'test-color2':'#051669'
+      }
     },
   },
   plugins: [],
