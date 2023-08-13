@@ -1,5 +1,5 @@
 "use client"
-import { spartan } from "@/fonts";
+import { spartan } from "../fonts";
 import styles from "./styles/home.module.css";
 import { Row ,Col} from "react-bootstrap";
 import Image from "next/image";

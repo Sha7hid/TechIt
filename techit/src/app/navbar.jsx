@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./styles/home.module.css";
-import { luck} from "@/fonts";
+import { luck} from "../fonts";
 import { TiShoppingCart } from "react-icons/ti";
 import { IoPersonSharp } from "react-icons/io5";
 import LoginButton from "./LoginButton";
