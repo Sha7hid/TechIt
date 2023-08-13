@@ -1,7 +1,7 @@
 'use client';
 import {signIn,signOut,useSession} from 'next-auth/react'
 import React from 'react'
-import { luck} from "@/fonts";
+import { luck} from "../fonts";
 
 const LoginButton = () => {
     const {data:session} = useSession();
