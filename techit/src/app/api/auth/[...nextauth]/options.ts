@@ -24,5 +24,6 @@ if(credentials?.email === user.email && credentials?.password === user.password)
     ],
     pages:{
         signIn:"/auth/signIn"
+
     }
 }
