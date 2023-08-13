@@ -6,13 +6,13 @@ import { signIn } from "next-auth/react";
 import React, { useRef } from "react";
 
 const LoginPage = () => {
-  const email = useRef("");
+  const email1 = useRef("");
   const pass = useRef("");
 
   const onSubmit = async () => {
     try {
       const result = await signIn("credentials", {
-        username: email.current,
+        email: email1.current,
         password: pass.current,
         redirect: true,
         callbackUrl: "/", // Default URL for successful sign-in
@@ -37,10 +37,11 @@ const LoginPage = () => {
         "flex flex-col justify-center items-center  h-screen bg-test-color"
       }
     >
-      <div className="px-7 py-4 shadow bg-test-color2 text-white rounded-md flex flex-col gap-2">
+      <div className="lg:px-7 lg:py-4 md:px-7 md:py-4 min-[320px]:px-3 min-[320px]:py-3 shadow bg-test-color2 text-white rounded-md flex flex-col gap-2 ">
         <TextBox
           labelText="Email"
-          onChange={(e) => (email.current = e.target.value)}
+          type={"email"}
+          onChange={(e) => (email1.current = e.target.value)}
         />
         <TextBox
           labelText="Password"

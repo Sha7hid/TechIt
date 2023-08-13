@@ -36,7 +36,7 @@ const Button = ({
     <button
       {...props}
       type={type}
-      className={'text-white bg-black'}
+      className={'text-white bg-black lg:w-full min-[320px]:w-2 '}
     >
       Sign In
     </button>

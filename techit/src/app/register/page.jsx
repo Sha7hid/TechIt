@@ -37,7 +37,7 @@ export default function Register() {
     <main class="min-h-screen bg-test-color flex items-start justify-start">
      
         <form id="myForm" className={'container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2 mt-5'}>
-            <div class="form-group" className={'bg-test-color2 px-6 py-8 rounded shadow-md  text-black w-full'}>
+            <div className={'bg-test-color2 px-6 py-8 rounded shadow-md  text-black w-full'}>
               <label className={styles.label}>Name</label>
               <input
                 type="text"

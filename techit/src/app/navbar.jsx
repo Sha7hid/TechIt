@@ -32,7 +32,7 @@ export default function NavbarComponent() {
                   <TiShoppingCart size={40} />
                 </span>
               </Nav.Link>
-              <Nav.Link className={styles.custom} href="#memes">
+              <Nav.Link className={styles.custom} href="/profile">
                 <span>
                   <IoPersonSharp size={35} />
                 </span>

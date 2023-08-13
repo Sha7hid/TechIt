@@ -25,6 +25,5 @@ if(credentials?.email === user.email && credentials?.password === user.password)
     secret:'VBh/SS2fQ34dX3Ii08j14erMDC2k5SaNX5bCbI+msJU=',
     pages:{
         signIn:"/auth/signIn"
-
     }
 }
