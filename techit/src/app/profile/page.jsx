@@ -26,11 +26,13 @@ export default function Profile() {
   }
 
   if (!userData && status === 'authenticated') {
+   
     fetch(`http://43.205.138.125:8080/users/email/${session.user.email}`)
       .then(response => response.json())
       .then(data => setUserData(data))
       .catch(error => console.error('Error fetching user data:', error));
   }
+  
 
   return (
     <div className='flex flex-col justify-start items-center h-screen bg-test-color'>
