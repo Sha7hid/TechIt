@@ -44,6 +44,11 @@
     margin-top: 1rem;
   }
   .success {
+    color: yellow;
+    font-size: larger;
+    font-weight: bold;
+  }
+  .error {
     color: red;
     font-size: larger;
     font-weight: bold;
