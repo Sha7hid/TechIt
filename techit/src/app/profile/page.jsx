@@ -2,7 +2,7 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'; // Import useRouter
-import { useState } from 'react'; 
+import { useState ,useEffect} from 'react'; 
 import pro from '../../../public/profile.png'
 import Link from 'next/link';
 
@@ -10,7 +10,15 @@ export default function Profile() {
   const { data: session, status } = useSession();
   const router = useRouter();   // Initialize the useRouter hook
   const [userData, setUserData] = useState(null);
-
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user?.email) {
+      fetch(`/api/profile/${session.user.email}`) // Use backticks for template literals
+        .then(response => response.json())
+        .then(data => setUserData(data.user))
+        .catch(error => console.error('Error fetching user data:', error));
+    }
+  }, [status, session]);
+  
   if (status === 'loading') {
     return (
       <div className='flex flex-col justify-center items-center  h-screen bg-test-color'>
@@ -25,13 +33,7 @@ export default function Profile() {
     return null; // Return null to prevent rendering before redirection
   }
 
-  if (!userData && status === 'authenticated') {
-   
-    fetch(`http://43.205.138.125:8080/users/email/${session.user.email}`)
-      .then(response => response.json())
-      .then(data => setUserData(data))
-      .catch(error => console.error('Error fetching user data:', error));
-  }
+
   
 
   return (
