@@ -38,7 +38,7 @@ export default function Register() {
       };
 
       fetch(
-        'http://15.206.146.173:8080/users',
+        '/api/register',
         {
           method: "POST",
           headers: {
@@ -50,7 +50,7 @@ export default function Register() {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          setSuccess(`Successfully added user ${data.username}`);
+          setSuccess(`Successfully added user ${data.user.username}`);
         })
         .catch((error) => console.error('Fetch Error:', error));
     });
