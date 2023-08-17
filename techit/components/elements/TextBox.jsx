@@ -24,7 +24,6 @@ const TextBox = React.forwardRef(
         )}
         <div className="flex items-stretch">
           <input
-            id="txt"
             autoComplete="off"
             className={` text-black border border-b-cyan-500 disabled:border-slate-100 w-full min-[320px]:w-3 block outline-none py-2 px-1 min-[320px]:py-2 min-[320px]: transition-all text-xs lg:text-sm xl:text-base bg-slate-50 focus:shadow focus:shadow-blue-500
               ${error && "border-red-500 border  animate-shake"} ${
