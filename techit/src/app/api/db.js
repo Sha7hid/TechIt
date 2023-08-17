@@ -126,6 +126,82 @@ export async function deleteUser(userId) {
     WHERE user_id = ?
   `, [userId]);
 }
+// Create a new cart item
+export async function createCartItem(userId, productId, quantity) {
+  const result = await pool.query(`
+    INSERT INTO cart (user_id, product_id, quantity)
+    VALUES (?, ?, ?)
+  `, [userId, productId, quantity]);
+
+  const id = result[0].insertId;
+  return getCartItem(id);
+}
+
+// Update a cart item
+export async function updateCartItem(id, userId, productId, quantity) {
+  await pool.query(
+    `
+    UPDATE cart
+    SET user_id = ?, product_id = ?, quantity = ?
+    WHERE cart_id = ?;
+    `,
+    [userId, productId, quantity, id]
+  );
+  return getCartItem(id);
+}
+
+// Delete a cart item
+export async function deleteCartItem(id) {
+  await pool.query(`
+    DELETE FROM cart
+    WHERE cart_id = ?
+  `, [id]);
+}
+
+// Get all cart items for a user
+export async function getCartItemsForUser(userId) {
+  const [rows] = await pool.query(`
+    SELECT *
+    FROM cart
+    WHERE user_id = ?
+  `, [userId]);
+  return rows;
+}
+
+// Create a new order
+export async function createOrder(userId, productId, orderStatus) {
+  const result = await pool.query(`
+    INSERT INTO orders (user_id, product_id, order_status)
+    VALUES (?, ?, ?)
+  `, [userId, productId, orderStatus]);
+
+  const id = result[0].insertId;
+  return getOrder(id);
+}
+
+// Update an order
+export async function updateOrder(id, userId, productId, orderStatus) {
+  await pool.query(
+    `
+    UPDATE orders
+    SET user_id = ?, product_id = ?, order_status = ?
+    WHERE order_id = ?;
+    `,
+    [userId, productId, orderStatus, id]
+  );
+  return getOrder(id);
+}
+
+// Get all orders for a user
+export async function getOrdersForUser(userId) {
+  const [rows] = await pool.query(`
+    SELECT *
+    FROM orders
+    WHERE user_id = ?
+  `, [userId]);
+  return rows;
+}
+
 
 export default {
   getProducts,
@@ -133,6 +209,13 @@ export default {
   createProduct,
   updateProduct,
   deleteProduct,
+  createCartItem,
+  updateCartItem,
+  deleteCartItem,
+  getCartItemsForUser,
+  createOrder,
+  updateOrder,
+  getOrdersForUser,
   getUsers,
   getUserByEmailAndPassword,
   getUserByEmail,
