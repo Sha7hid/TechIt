@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+export const dynamic = 'force-dynamic'
 import Button from "../../../../components/elements/Button";
 import TextBox from "../../../../components/elements/TextBox";
 import { signIn } from "next-auth/react";

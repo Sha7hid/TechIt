@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+export const dynamic = 'force-dynamic'
 import React, { useEffect, useState } from "react";
 import styles from '../styles/form.module.css';
 
