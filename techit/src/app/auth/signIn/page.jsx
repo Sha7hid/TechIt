@@ -6,6 +6,7 @@ import TextBox from "../../../../components/elements/TextBox";
 import { signIn } from "next-auth/react";
 import React, { useRef } from "react";
 
+
 const LoginPage = () => {
   const email1 = useRef("");
   const pass = useRef("");
@@ -50,7 +51,7 @@ const LoginPage = () => {
           onChange={(e) => (pass.current = e.target.value)}
         />
         <Button onClick={onSubmit}></Button>
-       <p>Don't have an account? then create a new account <Link className={'text-amber-400'}href={'/register'}>Sign Up</Link></p>
+       <p>Don't have an account? then create a new account <Link as={'style'} className={'text-amber-400'}href={'/register'}>Sign Up</Link></p>
       </div>
     </div>
   );
