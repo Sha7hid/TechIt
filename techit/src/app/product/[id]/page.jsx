@@ -1,7 +1,7 @@
 export default async function Product({params}) {
     console.log(params.id)
     const res = await fetch(
-        `http://43.205.138.125:8080/products/${params.id}`,
+        `http://15.206.146.173:8080/products/${params.id}`,
         { cache: "no-store" }
       );
       const result = await res.json();

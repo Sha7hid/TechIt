@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default async function Products() {
   const res = await fetch(
-    'http://43.205.138.125:8080/products',
+    'http://15.206.146.173:8080/products',
     { cache: "no-store" }
   );
   const results = await res.json();
