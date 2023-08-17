@@ -38,7 +38,7 @@ export default function Register() {
       };
 
       fetch(
-        '/api/register',
+        'api/register',
         {
           method: "POST",
           headers: {
