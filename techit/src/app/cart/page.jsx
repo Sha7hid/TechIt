@@ -53,7 +53,7 @@ console.log(cartData)
 console.log(userData)
   return (
     <div className='flex flex-col justify-start items-center h-screen bg-test-color'>
-       {cartData.map((result) => (
+       {cartData && cartData.map((result) => (
         <>
           <p className="text-white min-[320px]:text-xl sm:text-3xl md:text-3xl lg:text-3xl xl:text-4xl font-bold mt-5">product id ={result.product_id}</p>
           <p className="text-white min-[320px]:text-xl sm:text-3xl md:text-xl lg:text-xl xl:text-2xl font-bold mt-5"> quantity ={result.quantity}</p>
