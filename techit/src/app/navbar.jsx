@@ -27,7 +27,7 @@ export default function NavbarComponent() {
               </Nav.Link>
             </Nav>
             <Nav>
-              <Nav.Link className={styles.custom} href="#deets">
+              <Nav.Link className={styles.custom} href="/cart">
                 <span>
                   <TiShoppingCart size={40} />
                 </span>

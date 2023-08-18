@@ -6,38 +6,49 @@ export default function Product({ params }) {
   const [userData, setUserData] = useState(null);
   const [productData, setProductData] = useState(null); // State to store product data
   const [isAddingToCart, setIsAddingToCart] = useState(false); 
-  useEffect(() => {
-    if (status === 'authenticated' && session?.user?.email) {
-      fetch(`/api/profile/${session.user.email}`)
-        .then(response => response.json())
-        .then(data => setUserData(data.user))
-        .catch(error => console.error('Error fetching user data:', error));
-    }
-  }, [status, session]);
+const [success,setSuccess] = useState(false)
 
   const fetchProductData = async () => {
     try {
       const res = await fetch(
-        `http://15.206.146.173:8080/products/${params.id}`,
+        `/api/product/${params.id}`,
         { cache: "no-store" }
       );
       const result = await res.json();
-      setProductData(result); // Store the product data in state
+      const data = result.product
+      setProductData(data); // Store the product data in state
     } catch (error) {
       console.error('Error fetching product data:', error);
     }
   };
+  const fetchUserData = async () => {
+    try {
+      const res = await fetch(`/api/profile/${session.user.email}`);
+      const result = await res.json();
+      const userData = result.user;
+      return userData;
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      return null;
+    }
+  };
+  
 
   useEffect(() => {
     fetchProductData();
-  }, [params.id]);
+    if (status === 'authenticated' && session?.user?.email) {
+      fetchUserData(session.user.email)
+        .then(data => setUserData(data))
+        .catch(error => console.error('Error fetching user data:', error));
+    }
+  }, [params.id,session,status]);
 
   const cartData = { // Renamed the variable to avoid naming conflict
     productId: productData?.Product_ID,
-    userId: session?.user?.id,
+    userId: userData?.user_id,
     quantity: 1, // You can adjust the quantity as needed
   };
-
+console.log(cartData)
   const handleAddToCart = async () => {
     if (!session || !session.user) {
       console.log('User not logged in. Redirecting to login page...');
@@ -59,6 +70,7 @@ export default function Product({ params }) {
       const responseData = await response.json();
 
       if (responseData.success) {
+        setSuccess(true)
         console.log('Item added to cart successfully.');
         // You might want to display a confirmation message here
       } else {
@@ -97,6 +109,7 @@ export default function Product({ params }) {
       >
         {isAddingToCart ? 'Adding to cart...' : 'Add to cart'}
       </button>
+    {success ? <p>successfully added to cart</p> :<p></p>}
  </div>
 </div>
   ) : (

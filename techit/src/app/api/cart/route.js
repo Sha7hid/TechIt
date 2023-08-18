@@ -2,18 +2,18 @@ import { NextResponse } from 'next/server';
 import { createCartItem } from '../db';
 
 export async function POST(request, response) {
-  const { product, user, quant } = await request.json();
+  const { productId, userId, quantity } = await request.json();
 
-  if (!product || !user || !quant) {
+  if (!productId || !userId || !quantity) {
     return NextResponse.json({ error: 'userId, productId, and quantity are required.' }, { status: 400 });
   }
   
   const cart = {
-    userId: user,
-    productId: product,
-    quantity: quant,
+    userId: userId,
+    productId: productId,
+    quantity: quantity,
   };
-
+console.log(cart)
   try {
     // Assuming you have a function createUser in your db module to handle user registration
     const newCartItem = await createCartItem(cart);

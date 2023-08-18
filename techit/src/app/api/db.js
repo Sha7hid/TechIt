@@ -127,7 +127,8 @@ export async function deleteUser(userId) {
   `, [userId]);
 }
 // Create a new cart item
-export async function createCartItem(userId, productId, quantity) {
+export async function createCartItem(cart) {
+  const {userId,productId,quantity} = cart;
   const result = await pool.query(`
     INSERT INTO cart (user_id, product_id, quantity)
     VALUES (?, ?, ?)
@@ -135,6 +136,15 @@ export async function createCartItem(userId, productId, quantity) {
 
   const id = result[0].insertId;
   return getCartItem(id);
+}
+export async function getCartItem(id) {
+  const [rows] = await pool.query(`
+    SELECT *
+    FROM cart
+    WHERE cart_id = ?
+  `, [id]);
+
+  return rows[0];
 }
 
 // Update a cart item
@@ -213,6 +223,7 @@ export default {
   updateCartItem,
   deleteCartItem,
   getCartItemsForUser,
+  getCartItem,
   createOrder,
   updateOrder,
   getOrdersForUser,
