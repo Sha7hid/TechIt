@@ -47,7 +47,7 @@ export default function Profile() {
           <p className="text-white min-[320px]:text-xl sm:text-3xl md:text-3xl lg:text-3xl xl:text-4xl font-bold mt-5">{userData.username}</p>
           <p className="text-white min-[320px]:text-xl sm:text-3xl md:text-xl lg:text-xl xl:text-2xl font-bold mt-5">{userData.email}</p>
           <div className='flex flex-row justify-center items-center'>
-            <Link href={'/'} className="bg-white text-black rounded-full px-4 py-1 text-sm md:text-base lg:text-lg xl:text-xl cursor-pointer mt-5 mr-11 text-bold">Cart</Link>
+            <Link href={'/cart'} className="bg-white text-black rounded-full px-4 py-1 text-sm md:text-base lg:text-lg xl:text-xl cursor-pointer mt-5 mr-11 text-bold">Cart</Link>
             <Link href={'/'} className="bg-white text-black rounded-full px-3 py-1 text-sm md:text-base lg:text-lg xl:text-xl cursor-pointer mt-5 text-bold">Orders</Link>
           </div>
         </>

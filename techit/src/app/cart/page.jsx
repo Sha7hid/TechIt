@@ -4,12 +4,54 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation'; // Import useRouter
 import { useState, useEffect } from 'react'; 
 import pro from '../../../public/profile.png'
+import Link from 'next/link';
 
 export default function Cart() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [userData, setUserData] = useState(null);
   const [cartData, setCartData] = useState(null);
+  const [productData, setProductData] = useState([]);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [success,setSuccess] = useState(false)
+  const handlePlaceOrder = async (productId) => {
+    if (!session) {
+      // User is not logged in, handle this scenario (e.g., redirect to login).
+      return;
+    }
+const order = {
+  user_id: userData.user_id, // Use the correct field for user_id
+  product_id: productId,
+  order_status:1,
+}
+console.log(order)
+    try {
+      setIsAddingToCart(true);
+      // Send a POST request to add the order.
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(order),
+      });
+
+      const responseData = await response.json();
+
+      if (responseData.success) {
+        setSuccess(true)
+        // Handle success (e.g., show a success message).
+        console.log('Order placed successfully.');
+      } else {
+        // Handle the error case.
+        console.error('Failed to place the order:', responseData.error);
+      }
+    } catch (error) {
+      console.error('Error placing the order:', error);
+    } finally{
+      setIsAddingToCart(false);
+    }
+  };
 
   const fetchCartData = async (userId) => {
     try {
@@ -19,6 +61,18 @@ export default function Cart() {
       setCartData(data);
     } catch (error) {
       console.error('Error fetching cart data:', error);
+    }
+  };
+  const fetchProductData = async (productId) => {
+    try {
+      const res = await fetch(`/api/product/${productId}`, { cache: "no-store" });
+      const result = await res.json();
+      const data = result.product;
+      setProductData(prevData => [...prevData, data]);
+      
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+      return null;
     }
   };
   
@@ -37,6 +91,16 @@ export default function Cart() {
     }
   }, [userData]);
 
+  useEffect(() => {
+    if (cartData) {
+      {cartData.map((result)=>{
+        fetchProductData(result.product_id);
+      })}
+      
+    }
+  }, [cartData]);
+
+
   if (status === 'loading') {
     return (
       <div className='flex flex-col justify-center items-center h-screen bg-test-color'>
@@ -49,16 +113,37 @@ export default function Cart() {
     router.push('/auth/signIn');
     return null;
   }
-console.log(cartData)
-console.log(userData)
   return (
     <div className='flex flex-col justify-start items-center h-screen bg-test-color'>
-       {cartData && cartData.map((result) => (
+     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ml-11 mr-10 mb-11 mt-11">
+      {productData && productData.map((result) => (
         <>
-          <p className="text-white min-[320px]:text-xl sm:text-3xl md:text-3xl lg:text-3xl xl:text-4xl font-bold mt-5">product id ={result.product_id}</p>
-          <p className="text-white min-[320px]:text-xl sm:text-3xl md:text-xl lg:text-xl xl:text-2xl font-bold mt-5"> quantity ={result.quantity}</p>
+         <div class="w-full lg:w-96 bg-test-color2 rounded-lg shadow-lg flex text-white">
+  <img src={result.Image} alt="Laptop Photo" class="w-52  h-auto rounded-lg"/>
+  <div class=" min-[320px]:pl-2 min-[320px]:pr-2 min-[320px]:pt-2 lg:pl-9 lg:pt-4 pb-4 md:pt-4 md:pl-9 sm:pl-5 sm:pt-2 flex flex-col justify-between">
+    <div>
+      <h3 class="sm:text-xs md:text-base lg:text-xl font-semibold mb-2 lg:pr-6 md:pr-4 sm:pr-2   min-[320px]:text-sm">{result.Product_Name}</h3>
+      <p class="text-white-600 lg:pl-2 lg:pr-3 md:pl-2 md:pr-3 sm:pl-1 sm:pr-2 sm:text-xs md:text-base lg:text-base  min-[320px]:text-sm">{result.Price}</p>
+    </div>
+    <div class="mt-2 sm:text-xs md:text-base lg:text-base  min-[320px]:text-xs">
+      <ul class="list-disc lg:pl-2 lg:pr-3 md:pl-2 md:pr-3 sm:pl-1 sm:pr-2">
+      <li>{result.Processor}</li>
+        <li>{result.Memory}</li>
+      </ul>
+    </div>
+    <button
+                className="min-[320px]:text-xs sm:text-xs md:text-base lg:text-base min-[320px]:mt-2 min-[320px]:mr-2 lg:mt-4 lg:mr-3 md:mt-4 md:mr-3 sm:mt-2 sm:mr-1 bg-black text-white rounded-md min-[320px]:px-2 min-[320px]:py-1 lg:px-4 lg:py-2 md:px-4 md:py-2 sm:px-2 sm:py-2 hover:bg-blue-600 transition duration-300"
+                onClick={() => handlePlaceOrder(result.Product_ID)}
+                disabled={isAddingToCart}
+              >
+                {isAddingToCart ? 'Placing Order...' : 'Place Order'}
+              </button>
+              {success ? <p>successfully placed order</p> :<p></p>}
+  </div>
+</div>
         </>
       ))}
+      </div>
     </div>
   );
 }
