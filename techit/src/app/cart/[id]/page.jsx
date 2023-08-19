@@ -7,21 +7,70 @@ export default function Confirm({params}) {
     const router = useRouter();
     const [userData, setUserData] = useState(null);
     const [cartData, setCartData] = useState(null);
-    const [productData, setProductData] = useState([]);
+    const [productData, setProductData] = useState(null);
     const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [success,setSuccess] = useState(false)
+ 
+  
+  
+  const fetchCartData = async (cart_id) => {
+    try {
+      const res = await fetch(`/api/cartid/${cart_id}`, { cache: "no-store" });
+      const result = await res.json();
+      const data = result.cart;
+      setCartData(data);
+    } catch (error) {
+      console.error('Error fetching cart data:', error);
+    }
+  };
+  const fetchProductData = async (productId) => {
+    try {
+      const res = await fetch(`/api/product/${productId}`, { cache: "no-store" });
+      const result = await res.json();
+      const data = result.product;
+      setProductData(data);
+      
+    } catch (error) {
+      console.error('Error fetching product data:', error);
+      return null;
+    }
+  };
+  
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user?.email) {
+      fetch(`/api/profile/${session.user.email}`)
+        .then(response => response.json())
+        .then(data => setUserData(data.user))
+        .catch(error => console.error('Error fetching user data:', error));
+    }
+  }, [status, session]);
 
-  const handlePlaceOrder = async (productId) => {
+  useEffect(() => {
+      fetchCartData(params.id);
+    
+  }, [params.id]);
+
+  useEffect(() => {
+    if (cartData) {
+        fetchProductData(cartData.product_id);
+   
+      
+    }
+  }, [cartData]);
+  
+ 
+  const handlePlaceOrder = async () => {
     if (!session) {
       // User is not logged in, handle this scenario (e.g., redirect to login).
       return;
     }
-const order = {
-  user_id: userData.user_id, // Use the correct field for user_id
-  product_id: productId,
-  order_status:1,
-}
-console.log(order)
+    const num = 1;
+    const order = {
+      user_id: userData?.user_id, // Use the correct field for user_id
+      product_id: productData?.Product_ID,
+      order_status:num,
+    }
+  console.log(order)
     try {
       setIsAddingToCart(true);
       // Send a POST request to add the order.
@@ -50,54 +99,6 @@ console.log(order)
     }
   };
 
-  const fetchCartData = async (userId) => {
-    try {
-      const res = await fetch(`/api/cart/${userId}`, { cache: "no-store" });
-      const result = await res.json();
-      const data = result.cart;
-      setCartData(data);
-    } catch (error) {
-      console.error('Error fetching cart data:', error);
-    }
-  };
-  const fetchProductData = async (productId) => {
-    try {
-      const res = await fetch(`/api/product/${productId}`, { cache: "no-store" });
-      const result = await res.json();
-      const data = result.product;
-      setProductData(prevData => [...prevData, data]);
-      
-    } catch (error) {
-      console.error('Error fetching product data:', error);
-      return null;
-    }
-  };
-  
-  useEffect(() => {
-    if (status === 'authenticated' && session?.user?.email) {
-      fetch(`/api/profile/${session.user.email}`)
-        .then(response => response.json())
-        .then(data => setUserData(data.user))
-        .catch(error => console.error('Error fetching user data:', error));
-    }
-  }, [status, session]);
-
-  useEffect(() => {
-    if (userData) {
-      fetchCartData(userData.user_id);
-    }
-  }, [userData]);
-
-  useEffect(() => {
-    if (cartData) {
-      {cartData.map((result)=>{
-        fetchProductData(result.product_id);
-      })}
-      
-    }
-  }, [cartData]);
-
-
   if (status === 'loading') {
     return (
       <div className='flex flex-col justify-center items-center h-screen bg-test-color'>
@@ -111,8 +112,35 @@ console.log(order)
     return null;
   }
     return (
-        <div className="flex flex-col justify-start items-center h-screen bg-test-color">
-            <p className='text-white'>cart_id:{params.id}</p>
-            </div>
+      <main className="flex flex-col justify-center items-center h-screen bg-test-color text-white">
+           {productData ? (
+  <div className=" grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ml-11 mr-10 mb-11 mt-11">
+ 
+ <img src={productData.Image} alt="Laptop Photo" class="w-auto  h-auto rounded-lg"/>
+ <div className=" min-[320px]:pl-2 min-[320px]:pr-2 min-[320px]:pt-2 lg:pl-9 lg:pt-4 pb-4 md:pt-4 md:pl-9 sm:pl-5 sm:pt-2 flex flex-col justify-between">
+   <div>
+     <h3 className="sm:text-xs md:text-base lg:text-xl font-semibold mb-2 lg:pr-6 md:pr-4 sm:pr-2   min-[320px]:text-sm">{productData.Product_Name}</h3>
+     <p className="text-white-600 lg:pl-2 lg:pr-3 md:pl-2 md:pr-3 sm:pl-1 sm:pr-2 sm:text-xs md:text-base lg:text-base  min-[320px]:text-sm">Total Amount : ${productData.Price}</p>
+   </div>
+  
+   <button
+        className="min-[320px]:text-xs sm:text-xs md:text-base lg:text-base min-[320px]:mt-2 min-[320px]:mr-2 lg:mt-4 lg:mr-3 md:mt-4 md:mr-3 sm:mt-2 sm:mr-1 bg-black text-white rounded-md min-[320px]:px-2 min-[320px]:py-1 lg:px-4 lg:py-2 md:px-4 md:py-2 sm:px-2 sm:py-2 hover:bg-blue-600 transition duration-300"
+        onClick={handlePlaceOrder}
+        disabled={isAddingToCart}
+      >
+        {isAddingToCart ? 'Placing Order...' : 'Pay On Delivery'}
+      </button>
+      <button className="min-[320px]:text-xs sm:text-xs md:text-base lg:text-base min-[320px]:mt-2 min-[320px]:mr-2 lg:mt-4 lg:mr-3 md:mt-4 md:mr-3 sm:mt-2 sm:mr-1 bg-black text-white rounded-md min-[320px]:px-2 min-[320px]:py-1 lg:px-4 lg:py-2 md:px-4 md:py-2 sm:px-2 sm:py-2 hover:bg-blue-600 transition duration-300">
+        Pay Online</button>
+    {success ? <p>successfully placed order</p> :<p></p>}
+ </div>
+</div>
+  ) : (
+    <div className='flex flex-col justify-center items-center  h-screen bg-test-color'>
+        <div className="w-16 h-16 border-t-4 border-yellow-500 border-solid rounded-full animate-spin"></div>
+      </div>
+  )}
+        </main>
+
     );
 }

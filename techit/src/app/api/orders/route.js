@@ -2,15 +2,14 @@ import { NextResponse } from 'next/server';
 import { createOrder } from '../db'; // Assuming you have a function createOrder in your db module
 
 export async function POST(request, response) {
-  const { userId,productId,  order_status } = await request.json();
-console.log(userId)
-  if (!productId || !userId ||  order_status === undefined) {
+  const { user_id,product_id,  order_status } = await request.json();
+  if (!user_id || !product_id ||  !order_status) {
     return NextResponse.json({ error: 'userId, productId and order_status are required.' }, { status: 400 });
   }
 
   const order = {
-    userId: userId,
-    productId: productId,
+    userId: user_id,
+    productId: product_id,
     order_status: order_status, // Include order_status in the order object
   };
 console.log(order)

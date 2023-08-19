@@ -177,9 +177,24 @@ export async function getCartItemsForUser(userId) {
   `, [userId]);
   return rows;
 }
+export async function getOrder(orderId) {
+  const result = await pool.query(`
+    SELECT * FROM orders
+    WHERE order_id = ?
+  `, [orderId]);
+
+  // Check if there's a result and return the first row if found
+  if (result.length > 0) {
+    return result[0];
+  } else {
+    // Return null or handle the case where the order is not found
+    return null;
+  }
+}
 
 // Create a new order
-export async function createOrder(userId, productId, orderStatus) {
+export async function createOrder(order) {
+  const {userId,productId,orderStatus} =order;
   const result = await pool.query(`
     INSERT INTO orders (user_id, product_id, order_status)
     VALUES (?, ?, ?)
@@ -233,5 +248,6 @@ export default {
   getUser,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  getOrder
 };
