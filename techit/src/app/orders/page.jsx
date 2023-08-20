@@ -1,31 +1,31 @@
 "use client";
-import { signIn, signOut, useSession } from "next-auth/react";
+import {useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation"; // Import useRouter
 import { useState, useEffect } from "react";
-import pro from "../../../public/profile.png";
-import Link from "next/link";
 
-export default function Cart() {
+
+export default function Orders() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [userData, setUserData] = useState(null);
-  const [cartData, setCartData] = useState(null);
+  const [orderData, setOrderData] = useState(null);
   const [productData, setProductData] = useState([]);
   const [isLoadingProductData, setIsLoadingProductData] = useState(true);
 
-  const fetchCartData = async (userId) => {
+  const fetchOrderData = async (userId) => {
     try {
-      const res = await fetch(`/api/cart/${userId}`, { cache: "no-store" });
+      const res = await fetch(`/api/orders/${userId}`, { cache: "no-store" });
       const result = await res.json();
-      const data = result.cart;
-      setCartData(data);
+      const data = result.order;
+      console.log(data)
+      setOrderData(data);
     } catch (error) {
       console.error("Error fetching cart data:", error);
     }
   };
 
-  const fetchProductData = async (productId, cart_id) => {
+  const fetchProductData = async (productId, order_status) => {
     try {
       setIsLoadingProductData(true); // Set loading state to true while fetching data
 
@@ -35,7 +35,7 @@ export default function Cart() {
       const result = await res.json();
       const data = {
         ...result.product,
-        cart_id: cart_id,
+        order_status: order_status,
       };
       setProductData((prevData) => [...prevData, data]);
     } catch (error) {
@@ -57,17 +57,17 @@ export default function Cart() {
 
   useEffect(() => {
     if (userData) {
-      fetchCartData(userData.user_id);
+      fetchOrderData(userData.user_id);
     }
   }, [userData]);
 
   useEffect(() => {
-    if (cartData) {
-      cartData.map((result) => {
-        fetchProductData(result.product_id, result.cart_id);
+    if (orderData) {
+      orderData.map((result) => {
+        fetchProductData(result.product_id,result.order_status);
       });
     }
-  }, [cartData]);
+  }, [orderData]);
 
   if (status === "loading") {
     return (
@@ -81,10 +81,10 @@ export default function Cart() {
     router.push("/auth/signIn");
     return null;
   }
-
+console.log(productData)
   return (
     <div className="flex flex-col justify-start items-center h-screen bg-test-color">
-      <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ml-11 mr-10 mb-11 mt-11">
+      <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 ml-11 mr-10 mb-11 mt-11">
         {isLoadingProductData
           ? (
             <div className="w-full lg:w-96 bg-test-color2 rounded-lg shadow-lg flex text-white">
@@ -125,12 +125,24 @@ export default function Cart() {
                         <li>{result.Memory}</li>
                       </ul>
                     </div>
-                    <Link
-                      className="min-[320px]:text-xs sm:text-xs md:text-base lg:text-base min-[320px]:mt-2 min-[320px]:mr-2 lg:mt-4 lg:mr-3 md:mt-4 md:mr-3 sm:mt-2 sm:mr-1 bg-black text-white rounded-md min-[320px]:px-2 min-[320px]:py-1 lg:px-4 lg:py-2 md:px-4 md:py-2 sm:px-2 sm:py-2 hover:bg-blue-600 transition duration-300"
-                      href={`/cart/${result.cart_id}`}
-                    >
-                      Place order
-                    </Link>
+                    <p className={`font-semibold lg:pl-2 lg:pr-3 md:pl-2 md:pr-3 sm:pl-1 sm:pr-2 sm:text-xs md:text-base lg:text-base  min-[320px]:text-sm ${
+  result.order_status === 1
+    ? 'text-yellow-500' // Yellow for 'Packed'
+    : result.order_status === 2
+    ? 'text-blue-500'   // Blue for 'Shipped'
+    : result.order_status === 3
+    ? 'text-green-500'  // Green for 'Delivered'
+    : 'text-gray-500'   // Gray for 'Unknown Status'
+}`}>
+  {result.order_status === 1
+    ? 'Packed'
+    : result.order_status === 2
+    ? 'Shipped'
+    : result.order_status === 3
+    ? 'Delivered'
+    : 'Unknown Status'}
+</p>
+
                   </div>
                 </div>
               </>
@@ -139,4 +151,3 @@ export default function Cart() {
     </div>
   );
 }
-
