@@ -1,10 +1,7 @@
 import Link from "next/link";
 
 export default async function Products() {
-  const res = await fetch(
-    'http://15.206.146.173:8080/products',
-    { cache: "no-store" }
-  );
+  const res = await fetch('http://15.206.146.173:8080/products', { cache: 'no-store' });
   const results = await res.json();
     return (
         <main class="min-h-screen bg-test-color flex items-start justify-start">
@@ -28,20 +25,6 @@ export default async function Products() {
   </div>
 </div>
  ))}
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-        </main>
-        
-        
-    );
-}
+</div>
+</main>
+)}
