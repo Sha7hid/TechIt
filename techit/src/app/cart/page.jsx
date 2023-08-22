@@ -12,7 +12,7 @@ export default function Cart() {
   const [cartData, setCartData] = useState(null);
   const [productData, setProductData] = useState([]);
   const [isLoadingProductData, setIsLoadingProductData] = useState(true);
-
+//test
   const fetchCartData = async (userId) => {
     try {
       const res = await fetch(`/api/cart/${userId}`, { cache: "no-store" });
