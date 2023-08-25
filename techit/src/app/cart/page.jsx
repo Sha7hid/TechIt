@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation"; // Import useRouter
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import toast, { Toaster } from 'react-hot-toast';
 export default function Cart() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -110,9 +111,13 @@ export default function Cart() {
     router.push("/auth/signIn");
     return null;
   }
-
+if(success==true){
+  toast.success("Removed Item Succesfully")
+  setSuccess(false)
+}
   return (
     <div class="min-h-screen bg-test-color flex items-start justify-start">
+      <Toaster/>
      <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ml-11 mr-10 mb-11 mt-11">
         {isLoadingProductData
           ? (
@@ -144,7 +149,6 @@ export default function Cart() {
     <button class="min-[320px]:text-xs sm:text-xs md:text-base lg:text-base min-[320px]:mt-2 min-[320px]:mr-2 lg:mt-4 lg:mr-3 md:mt-4 md:mr-3 sm:mt-2 sm:mr-1  bg-red-600 text-white rounded-md min-[320px]:px-2 min-[320px]:py-1 lg:px-4 lg:py-2 md:px-4 md:py-2 sm:px-2 sm:py-2" 
         onClick={() => handleRemoveCartItem(result.cart_id)}
        disabled={isAddingToCart}>  {isAddingToCart ? 'Removing from cart' : 'Remove'}</button> 
-    {success ? <p>successfully removed item</p> :<p></p>}
   </div>
 </div>
 </>

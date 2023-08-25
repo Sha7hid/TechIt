@@ -226,6 +226,26 @@ export async function getOrdersForUser(userId) {
   `, [userId]);
   return rows;
 }
+export async function deleteOrder(orderId) {
+  try {
+    // First, check if the order exists before deleting it.
+    const existingOrder = await getOrder(orderId);
+
+    if (!existingOrder) {
+      // The order does not exist, so you can handle it as needed (e.g., return an error).
+      return null; // or throw an error
+    }
+
+    // Delete the order.
+    await pool.query('DELETE FROM orders WHERE order_id = ?', [orderId]);
+
+    // Return a success message or whatever is appropriate for your use case.
+    return { success: true, message: 'Order deleted successfully.' };
+  } catch (error) {
+    console.error('Error deleting order:', error);
+    throw new Error('An error occurred while deleting the order.');
+  }
+}
 
 
 export default {
@@ -249,5 +269,6 @@ export default {
   createUser,
   updateUser,
   deleteUser,
-  getOrder
+  getOrder,
+  deleteOrder
 };

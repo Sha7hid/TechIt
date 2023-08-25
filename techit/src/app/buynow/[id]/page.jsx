@@ -7,23 +7,13 @@ export default function Confirm({params}) {
     const { data: session, status } = useSession();
     const router = useRouter();
     const [userData, setUserData] = useState(null);
-    const [cartData, setCartData] = useState(null);
     const [productData, setProductData] = useState(null);
     const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [success,setSuccess] = useState(false)
  
   
   
-  const fetchCartData = async (cart_id) => {
-    try {
-      const res = await fetch(`/api/cartid/${cart_id}`, { cache: "no-store" });
-      const result = await res.json();
-      const data = result.cart;
-      setCartData(data);
-    } catch (error) {
-      console.error('Error fetching cart data:', error);
-    }
-  };
+
   const fetchProductData = async (productId) => {
     try {
       const res = await fetch(`/api/product/${productId}`, { cache: "no-store" });
@@ -47,17 +37,10 @@ export default function Confirm({params}) {
   }, [status, session]);
 
   useEffect(() => {
-      fetchCartData(params.id);
+    fetchProductData(params.id);
     
   }, [params.id]);
 
-  useEffect(() => {
-    if (cartData) {
-        fetchProductData(cartData.product_id);
-   
-      
-    }
-  }, [cartData]);
   
  
   const handlePlaceOrder = async () => {

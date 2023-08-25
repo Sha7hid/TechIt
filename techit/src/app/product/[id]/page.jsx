@@ -1,6 +1,8 @@
 "use client";
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { useState ,useEffect} from 'react'; 
+import toast, { Toaster } from 'react-hot-toast';
 export default function Product({ params }) {
   const { data: session, status } = useSession();
   const [userData, setUserData] = useState(null);
@@ -84,8 +86,14 @@ console.log(cartData)
       setIsAddingToCart(false);
     }
   };
+  if(success==true){
+    toast.success("Added to cart")
+    setSuccess(false)
+  }
  return (
         <main className="bg-test-color text-white">
+          <Toaster
+          />
            {productData ? (
   <div className=" grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 ml-11 mr-10 mb-11 mt-11">
  
@@ -109,7 +117,9 @@ console.log(cartData)
       >
         {isAddingToCart ? 'Adding to cart...' : 'Add to cart'}
       </button>
-    {success ? <p>successfully added to cart</p> :<p></p>}
+      <Link 
+    className="flex justify-center items-center min-[320px]:text-xs sm:text-xs md:text-base lg:text-base min-[320px]:mt-2 min-[320px]:mr-2 lg:mt-4 lg:mr-3 md:mt-4 md:mr-3 sm:mt-2 sm:mr-1 bg-black text-white rounded-md min-[320px]:px-2 min-[320px]:py-1 lg:px-4 lg:py-2 md:px-4 md:py-2 sm:px-2 sm:py-2"
+    href={`/buynow/${productData.Product_ID}`}>Place Order</Link>
  </div>
 </div>
   ) : (
