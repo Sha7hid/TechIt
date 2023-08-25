@@ -119,8 +119,10 @@ export default function Confirm({params}) {
       >
         {isAddingToCart ? 'Placing Order...' : 'Pay On Delivery'}
       </button>
-      <button className="min-[320px]:text-xs sm:text-xs md:text-base lg:text-base min-[320px]:mt-2 min-[320px]:mr-2 lg:mt-4 lg:mr-3 md:mt-4 md:mr-3 sm:mt-2 sm:mr-1 bg-black text-white rounded-md min-[320px]:px-2 min-[320px]:py-1 lg:px-4 lg:py-2 md:px-4 md:py-2 sm:px-2 sm:py-2 hover:bg-blue-600 transition duration-300">
-        Pay Online</button>
+      <a className= " flex justify-center items-center min-[320px]:text-xs sm:text-xs md:text-base lg:text-base min-[320px]:mt-2 min-[320px]:mr-2 lg:mt-4 lg:mr-3 md:mt-4 md:mr-3 sm:mt-2 sm:mr-1 bg-black text-white rounded-md min-[320px]:px-2 min-[320px]:py-1 lg:px-4 lg:py-2 md:px-4 md:py-2 sm:px-2 sm:py-2 hover:bg-blue-600 transition duration-300"
+      href='https://buy.stripe.com/test_4gw14O4bo0G79dSbIJ'
+      >
+        Pay Online</a>
  </div>
 </div>
   ) : (
