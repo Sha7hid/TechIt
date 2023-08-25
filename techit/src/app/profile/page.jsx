@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'; // Import useRouter
 import { useState ,useEffect} from 'react'; 
 import pro from '../../../public/profile.png'
 import Link from 'next/link';
-import { spartan } from "../../fonts";
+import { spartan,Kan } from "../../fonts";
 
 export default function Profile() {
   const { data: session, status } = useSession();
@@ -45,16 +45,16 @@ export default function Profile() {
           <Image src={pro} alt="Image"
             className="rounded-full min-[320px]:w-16 min-[320px]:h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40 mt-5"
           />
-           <div className={spartan.className}>
+           <div className={Kan.className}>
           <p className="text-white min-[320px]:text-xl sm:text-3xl md:text-3xl lg:text-3xl xl:text-4xl font-bold mt-5">{userData.username}</p>
           </div>
-          <div className={spartan.className}>
+          <div className={Kan.className}>
           <p className="text-white min-[320px]:text-xl sm:text-3xl md:text-xl lg:text-xl xl:text-2xl font-bold mt-5">{userData.email}</p>
           </div>
-          <div className={spartan.className}>
+          <div className={Kan.className}>
         <div className='flex flex-row justify-center items-center'>
-            <Link href={'/cart'} className="bg-white text-test-color2 rounded-full px-4 py-1 text-sm md:text-base lg:text-lg xl:text-xl cursor-pointer mt-5 mr-11 text-bold">Cart</Link>
-            <Link href={'/orders'} className="bg-white text-test-color2 rounded-full px-3 py-1 text-sm md:text-base lg:text-lg xl:text-xl cursor-pointer mt-5 text-bold">Orders</Link>
+            <Link href={'/cart'} className="bg-white text-base  text-test-color2 rounded-full px-4 py-1  min-[320px]:text-md md:text-base lg:text-lg xl:text-xl cursor-pointer mt-5 mr-11 text-bold">Cart</Link>
+            <Link href={'/orders'} className="bg-white text-base text-test-color2 rounded-full px-3 py-1 min-[320px]:text-md  md:text-base lg:text-lg xl:text-xl cursor-pointer mt-5 text-bold">Orders</Link>
           </div>
           </div>
         </>
