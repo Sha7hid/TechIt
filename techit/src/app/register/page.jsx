@@ -3,7 +3,7 @@ import Link from "next/link";
 export const dynamic = 'force-dynamic'
 import React, { useEffect, useState } from "react";
 import styles from '../styles/form.module.css';
-
+import toast, { Toaster } from 'react-hot-toast';
 export default function Register() {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -60,9 +60,17 @@ export default function Register() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-
+if(success){
+  toast.success(success)
+  setSuccess(null)
+}
+if(error){
+toast.error(error)
+setError(null)
+}
   return (
     <main class="min-h-screen bg-test-color flex items-start justify-start">
+      <Toaster/>
       <form id="myForm" className={'container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2 mt-5'}>
         <div className={'bg-test-color2 px-6 py-8 rounded shadow-md  text-black w-full'}>
           <label className={styles.label}>Name</label>
@@ -109,8 +117,6 @@ export default function Register() {
             Submit
           </button>
 <p className="text-white">If already have an account? <Link className={'text-amber-400'}href={'/auth/signIn'}>Sign In</Link></p>
-          <p className={styles.error}>{error}</p>
-          <p className={styles.success}>{success}</p>
         </div>
       </form>
     </main>

@@ -65,10 +65,10 @@
     height:fit-content;
 }
 .customHead{
-    font-size: 20px;
+    font-size: 28px;
 }
 .custom{
-    font-size: 15px;
+    font-size: 20px;
 }
 }
   @media (min-height:700px){
@@ -92,4 +92,11 @@
         width: 420px;
     }
   }
- 
+  @media (min-width:320px){
+    .custom{
+        font-size: 20px;
+    }
+    .customHead{
+        font-size: 28px;
+    }
+  }

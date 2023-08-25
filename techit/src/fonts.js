@@ -1,5 +1,5 @@
 import { Luckiest_Guy,League_Spartan } from "next/font/google"
-import { Lilita_One } from "next/font/google"
+import { Lilita_One,Kanit } from "next/font/google"
 export const luck = Luckiest_Guy({
     subsets: ['latin'],
     weight: '400'})
@@ -10,4 +10,8 @@ export const luck = Luckiest_Guy({
     export const lilita = Lilita_One({
         subsets: ['latin'],
         weight: '400'
+    })
+    export const Kan = Kanit({
+        subsets: ['latin'],
+        weight: '700'
     })
