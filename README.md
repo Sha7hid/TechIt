@@ -1,6 +1,7 @@
 # TechIt 🖥️
 A laptop Ecommerce website build using Next js and MySql as database.
 ### Link to site - https://tech-it.vercel.app/ 🎊
+### Link to demo video (Incase site is down) - https://drive.google.com/file/d/1cEIphcwAq8BazwokKbYffyG-vka1tSHe/view?usp=drive_link 🎊
 ## Screenshots ✨
 ### 🎊 Home
 ![image](https://github.com/Sha7hid/TechIt/assets/96056167/ab0468da-a322-4ad9-8fa6-0077e3ea8a0d)
